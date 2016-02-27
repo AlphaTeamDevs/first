@@ -1,5 +1,6 @@
 // Client
 
+#include "stdafx.h"
 #include <iostream>
 #include <windows.h>
 #include <winsock2.h>
@@ -13,7 +14,7 @@ int main()
     
     char ip[17];
     u_short port;
-    char message[MAX_PATH];
+    char message[300];
     
     cout << "IP: ";
     cin >> ip;
@@ -31,13 +32,13 @@ int main()
     if(WSAStartup(Version, &wsa) != 0)
     {
                            
-        cout << "Can't load WSA library." << endl;
+        cout << "Невозможно загрузить библиотеку WSA." << endl;
                            
     }
     else
     {
         
-        cout << "WSA library load complite" << endl; 
+        cout << "Библиотека WSA загружена." << endl; 
         
     }
     
@@ -46,13 +47,13 @@ int main()
     if(send_sock == SOCKET_ERROR)
     {
                
-        cout << "Can't create socket." << endl;
+        cout << "Невозможно создать сокет." << endl;
                
     }
     else
     {
         
-        cout << "Socket create complite." << endl;
+        cout << "Сокет создан." << endl;
         
     }
     
@@ -68,9 +69,9 @@ int main()
         if(connect(send_sock, (SOCKADDR*)&Client, sizeof(Client)))
         {
                             
-            cout << "Complite connect to server." << endl;
+            cout << "соединение с сервером установлено." << endl;
             
-            send(send_sock, "Message from client: You complite connect to Client.", MAX_PATH, 0);
+            send(send_sock, "Сообщение от клиента: соединение с клиентом установлено.", 300, 0);
             
             recv(send_sock, message, sizeof(message), 0);
             
