@@ -11,7 +11,7 @@ int main()
     
     cout << "Client: " << endl;
     
-    char ip[15];
+    char ip[17];
     u_short port;
     char message[MAX_PATH];
     
@@ -41,9 +41,9 @@ int main()
         
     }
     
-    SOCKET Connect = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    SOCKET send_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     
-    if(Connect == SOCKET_ERROR)
+    if(send_sock == SOCKET_ERROR)
     {
                
         cout << "Can't create socket." << endl;
@@ -56,7 +56,7 @@ int main()
         
     }
     
-    SOCKADDR_IN Client;    
+    SOCKADDR_IN send_sock;    
     
     Client.sin_family = AF_INET;
     Client.sin_port = htons(port);
@@ -65,14 +65,14 @@ int main()
     while(1)
     {
                
-        if(connect(Connect, (SOCKADDR*)&Client, sizeof(Client)))
+        if(connect(send_sock, (SOCKADDR*)&Client, sizeof(Client)))
         {
                             
             cout << "Complite connect to server." << endl;
             
-            send(Connect, "Message from client: You complite connect to Client.", MAX_PATH, 0);
+            send(send_sock, "Message from client: You complite connect to Client.", MAX_PATH, 0);
             
-            recv(Connect, message, sizeof(message), 0);
+            recv(send_sock, message, sizeof(message), 0);
             
             break;
         
@@ -82,9 +82,7 @@ int main()
     
     cout << message << endl;
     
-    ZeroMemory(message, sizeof(message));
-    
-    closesocket(Connect);
+    closesocket(send_sock);
     WSACleanup();
     system("pause");
     return 0;
