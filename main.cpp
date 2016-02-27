@@ -1,17 +1,22 @@
 // Client
 
 #include "stdafx.h"
+#include <Ws2tcpip.h>
 #include <iostream>
+#include <clocale>
 #include <windows.h>
 #include <winsock2.h>
+
+#pragma comment (lib, "ws2_32.lib")
 
 using namespace std;
 
 int main()
 {
+	setlocale(LC_ALL, "rus");
 
-	cout << "Client: " << endl;
-
+	cout << "Client" << endl;
+	cout << endl;
 	char ip[17];
 	u_short port;
 	char message[300];
@@ -61,7 +66,7 @@ int main()
 
 	SendS.sin_family = AF_INET;
 	SendS.sin_port = htons(port);
-	SendS.sin_addr.s_addr = inet_addr(ip);
+	SendS.sin_addr.s_addr = inet_pton(AF_INET, ip, &(SendS.sin_addr));
 
 	while (1)
 	{
