@@ -62,7 +62,7 @@ int main()
     Client.sin_port = htons(port);
     Client.sin_addr.s_addr = inet_addr(ip);
     
-    while(1) // !!!
+    while(1)
     {
                
         if(connect(Connect, (SOCKADDR*)&Client, sizeof(Client)))
