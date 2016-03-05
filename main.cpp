@@ -1,8 +1,7 @@
-// Client
-
 #include "stdafx.h"
 #include <Ws2tcpip.h>
 #include <iostream>
+#include <string.h>
 #include <clocale>
 #include <windows.h>
 #include <winsock2.h>
@@ -19,7 +18,7 @@ int main()
 	cout << endl;
 	char ip[17];
 	u_short port;
-	char message[300];
+	char message[80];
 
 	cout << "IP: ";
 	cin >> ip;
@@ -30,7 +29,7 @@ int main()
 	cout << endl;
 
 	WSAData wsa;
-	WORD Version = MAKEWORD(2, 1);
+	WORD Version = MAKEWORD(1, 1);
 
 	WSAStartup(Version, &wsa);
 
@@ -47,7 +46,7 @@ int main()
 
 	}
 
-	SOCKET SendSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	SOCKET SendSock = socket(AF_INET, SOCK_STREAM, 0);
 
 	if (SendSock == SOCKET_ERROR)
 	{
@@ -66,17 +65,17 @@ int main()
 
 	SendS.sin_family = AF_INET;
 	SendS.sin_port = htons(port);
-	SendS.sin_addr.s_addr = inet_pton(AF_INET, ip, &(SendS.sin_addr));
+	SendS.sin_addr.s_addr = INADDR_ANY; //inet_pton(AF_INET, ip, &(SendS.sin_addr));
 
 	while (1)
 	{
 
-		if (connect(SendSock, (SOCKADDR*)&SendSock, sizeof(SendSock)))
+		if (connect(SendSock, (SOCKADDR*)&SendS, sizeof(SendS)))
 		{
 
 			cout << "Соединение с сервером установлено." << endl;
 
-			send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 300, 0);
+			send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0);
 
 			recv(SendSock, message, sizeof(message), 0);
 
@@ -85,9 +84,9 @@ int main()
 		}
 
 	}
-
+	
 	cout << message << endl;
-
+	
 	closesocket(SendSock);
 	WSACleanup();
 	system("pause");
