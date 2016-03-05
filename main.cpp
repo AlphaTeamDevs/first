@@ -18,7 +18,7 @@ int main()
 	cout << endl;
 	char ip[17];
 	u_short port;
-	char message[80];
+	char message[80] = { 0 };
 
 	cout << "IP: ";
 	cin >> ip;
@@ -76,7 +76,7 @@ int main()
 			cout << "Соединение с сервером установлено." << endl;
 
 			send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0);
-
+			// написать про ошибку
 			recv(SendSock, message, sizeof(message), 0);
 
 			break;
@@ -84,9 +84,9 @@ int main()
 		}
 
 	}
-	
+
 	cout << message << endl;
-	
+
 	closesocket(SendSock);
 	WSACleanup();
 	system("pause");
