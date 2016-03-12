@@ -18,8 +18,8 @@ int main()
 	cout << "                   #             This is Client             #" << endl;
 	cout << "                   #                                        #" << endl;
 	cout << "                   ##########################################" << endl;
-
 	cout << endl;
+
 	char ip[17];
 	u_short port;
 	char message[80] = { 0 };
@@ -71,17 +71,22 @@ int main()
 	SendS.sin_port = htons(port);
 	SendS.sin_addr.s_addr = INADDR_ANY; //inet_pton(AF_INET, ip, &(SendS.sin_addr));
 
-	while (1)
-	{
 
-		if (connect(SendSock, (SOCKADDR*)&SendS, sizeof(SendS)))
+		if (connect(SendSock, (SOCKADDR*)&SendS, sizeof(SendS)) == SOCKET_ERROR)
 		{
+			cout << "Соединение с сервером не установлено." << endl;
+			cout << endl;
+		}
 
+		else
+			
+		{
 			cout << "Соединение с сервером установлено." << endl;
 			cout << endl;
 
 			send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0);
-			if (send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0) != 0)
+
+			if (send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0) == SOCKET_ERROR)
 			{
 
 				cout << "Сообщение не отправлено!" << endl;
@@ -93,14 +98,11 @@ int main()
 				cout << "Сообщение отправлено)" << endl;
 
 			}
-			// написать про ошибку
+			
 			recv(SendSock, message, sizeof(message), 0);
-
-			break;
 
 		}
 
-	}
 
 	cout << message << endl;
 
