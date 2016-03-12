@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include <Ws2tcpip.h>
-#include <iostream>
-#include <string.h>
 #include <clocale>
+#include <iostream>
 #include <windows.h>
 #include <winsock2.h>
 
@@ -14,17 +13,22 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 
-	cout << "Client" << endl;
+	cout << "                   ##########################################" << endl;
+	cout << "                   #                                        #" << endl;
+	cout << "                   #             This is Client             #" << endl;
+	cout << "                   #                                        #" << endl;
+	cout << "                   ##########################################" << endl;
+
 	cout << endl;
 	char ip[17];
 	u_short port;
 	char message[80] = { 0 };
 
-	cout << "IP: ";
+	cout << "Введите IP: ";
 	cin >> ip;
 	cout << endl;
 
-	cout << "Port: ";
+	cout << "Введите Port: ";
 	cin >> port;
 	cout << endl;
 
@@ -74,8 +78,21 @@ int main()
 		{
 
 			cout << "Соединение с сервером установлено." << endl;
+			cout << endl;
 
 			send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0);
+			if (send(SendSock, "Сообщение от клиента: соединение с клиентом установлено.", 100, 0) != 0)
+			{
+
+				cout << "Сообщение не отправлено!" << endl;
+
+			}
+			else
+			{
+
+				cout << "Сообщение отправлено)" << endl;
+
+			}
 			// написать про ошибку
 			recv(SendSock, message, sizeof(message), 0);
 
